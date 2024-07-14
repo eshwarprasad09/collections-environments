@@ -1,0 +1,159 @@
+{
+	"info": {
+		"_postman_id": "254ff953-5ac0-4996-ba1c-2709c9c4663c",
+		"name": "webflux",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31923866"
+	},
+	"item": [
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content type is application/json\", function () {",
+							"    pm.response.to.have.header('Content-Type', 'application/json');",
+							"});",
+							"",
+							"pm.test(\"Response has a token property\", function () {",
+							"    pm.expect(pm.response.json()).to.have.property('token');",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"token\", jsonData.token);",
+							"",
+							"// var jsonData = JSON.parse(responseBody);",
+							"// pm.environment.set(\"token\", jsonData.token);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"eshwarprasaduser@gmail.com\",\n    \"password\":\"pass\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/login",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "quote",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// // Extract the token from the /login response and set it as a variable",
+							"// var token = pm.response.json().token;",
+							"// pm.globals.set(\"token\", token);",
+							"",
+							"// // Make the /quote request with the Authorization header using the token",
+							"// pm.sendRequest({",
+							"//     url: 'http://localhost:{{port}}/quote',",
+							"//     method: 'GET',",
+							"//     header: {",
+							"//         'Authorization': 'Bearer ' + token",
+							"//     }",
+							"// }, function (err, res) {",
+							"//     // Add tests for the /quote response here",
+							"// });"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/quote",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"quote"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
